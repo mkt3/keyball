@@ -39,3 +39,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define AUTO_MOUSE_DEFAULT_LAYER 5
 
 #define DYNAMIC_KEYMAP_LAYER_COUNT 7
+
+#define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
