@@ -74,7 +74,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LT(2, KC_MINUS):
             return true;
-        case SHIFT_T( KC_GRAVE ):
+        case SFT_T( KC_GRAVE ):
             return true;
         default:
             // Do not select the hold action when another key is pressed.
