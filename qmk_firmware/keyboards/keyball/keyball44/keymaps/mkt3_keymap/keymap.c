@@ -72,9 +72,17 @@ void oledkit_render_info_user(void) {
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case LT(1, KC_SPC):
+            return true;
         case LT(2, KC_MINUS):
             return true;
-        case SFT_T( KC_GRAVE ):
+        case LT(2, KC_QUOT):
+            return true;
+        case LT(2, KC_GRAVE):
+            return true;
+        case SFT_T(KC_GRAVE):
+            return true;
+        case SFT_T(KC_BSLS):
             return true;
         default:
             // Do not select the hold action when another key is pressed.
