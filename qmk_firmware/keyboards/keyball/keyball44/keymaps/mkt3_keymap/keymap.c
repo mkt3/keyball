@@ -54,8 +54,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    // Auto enable scroll mode when the highest layer is 6
-    keyball_set_scroll_mode(get_highest_layer(state) == 6);
+    switch (get_highest_layer(state)) {
+        case 3:
+            // Auto enable horizontal scroll mode when the highest layer is 3
+            keyball_set_scroll_mode(true);
+            keyball_set_scrollsnap_mode(KEYBALL_SCROLLSNAP_MODE_HORIZONTAL);
+            break;
+        case 6:
+            // Auto enable vertical scroll mode when the highest layer is 6
+            keyball_set_scroll_mode(true);
+            keyball_set_scrollsnap_mode(KEYBALL_SCROLLSNAP_MODE_VERTICAL);
+            break;
+        default:
+            keyball_set_scroll_mode(false);
+            break;
+    }
     return state;
 }
 

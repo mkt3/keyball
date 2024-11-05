@@ -630,8 +630,6 @@ bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
     switch (keycode) {
         case SCRL_MO:
             return true;
-        case SCRL_MO_HOR:
-            return true;
     }
     return is_mouse_record_user(keycode, record);
 }
@@ -669,14 +667,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             keyball_set_scroll_mode(record->event.pressed);
             // process_auto_mouse may use this in future, if changed order of
             // processes.
-            return true;
-        case SCRL_MO_HOR:
-            keyball_set_scroll_mode(record->event.pressed);
-            if (record->event.pressed) {
-                keyball_set_scrollsnap_mode(KEYBALL_SCROLLSNAP_MODE_HORIZONTAL);
-            } else {
-                keyball_set_scrollsnap_mode(KEYBALL_SCROLLSNAP_MODE_VERTICAL);
-            }
             return true;
     }
 
