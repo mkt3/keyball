@@ -20,6 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    include "transactions.h"
 #endif
 
+#ifdef OS_DETECTION_ENABLE
+#    include "os_detection.h"
+#endif
+
 #include "keyball.h"
 #include "drivers/pmw3360/pmw3360.h"
 
