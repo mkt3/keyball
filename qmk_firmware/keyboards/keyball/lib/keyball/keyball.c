@@ -237,6 +237,13 @@ __attribute__((weak)) void keyball_on_apply_motion_to_mouse_scroll(keyball_motio
             break;
     }
 #endif
+
+#if defined(OS_DETECTION_ENABLE)
+    if (detected_host_os() == OS_MACOS){
+      r->h = -r->h;
+      r->v = -r->v;
+    }
+#endif
 }
 
 static void motion_to_mouse(keyball_motion_t *m, report_mouse_t *r, bool is_left, bool as_scroll) {
