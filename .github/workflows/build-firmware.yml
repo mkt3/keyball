@@ -33,9 +33,6 @@ jobs:
     - name: Checkout qmk_firmware
       uses: ./.github/actions/checkout-qmk_firmware
 
-    - name: Install Python dependencies
-      run: /usr/bin/python3 -m pip install -r /__w/keyball/keyball/__qmk__/requirements.txt
-
     - name: Install a link to own source
       run: ln -s $(pwd)/qmk_firmware/keyboards/keyball __qmk__/keyboards/keyball
 
