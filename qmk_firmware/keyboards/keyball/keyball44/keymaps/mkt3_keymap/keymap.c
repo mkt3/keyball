@@ -117,11 +117,11 @@ void oledkit_render_info_user(void) {
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case LT(1, KC_SPC):
+        case SYM_SPC:
             return true;
-        case LT(2, KC_MINUS):
+        case LCTL_MINS:
             return true;
-        case LT(2, KC_QUOT):
+        case RCTL_QUOT:
             return true;
         case LT(2, KC_GRAVE):
             return true;
@@ -140,7 +140,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Store the current modifier state in the variable for later reference
     mod_state = get_mods();
     switch (keycode) {
-
     case KC_H:
         {
         // Initialize a boolean variable to track backspace replacement status
@@ -170,28 +169,43 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case KC_M:
         {
-        // Initialize a boolean variable to track enter replacement status
         static bool enter_sent;
         if (record->event.pressed) {
-            // Check if the Control modifier is active
             if (mod_state & MOD_MASK_CTRL) {
-                // Temporarily remove the Control modifier to send KC_ENTER
                 del_mods(MOD_MASK_CTRL);
                 register_code(KC_ENTER);
                 enter_sent = true;
-                // Reapply the original modifier state
                 set_mods(mod_state);
                 return false;
             }
-        } else { // on release of KC_M
-            // If enter was sent, unregister KC_ENTER
+        } else {
             if (enter_sent) {
                 unregister_code(KC_ENTER);
                 enter_sent = false;
                 return false;
             }
         }
-        // Let QMK process the KC_M keycode as usual if Ctrl is not active
+        return true;
+    }
+
+    case KC_I:
+        {
+        static bool tab_sent;
+        if (record->event.pressed) {
+            if (mod_state & MOD_MASK_CTRL) {
+                del_mods(MOD_MASK_CTRL);
+                register_code(KC_TAB);
+                tab_sent = true;
+                set_mods(mod_state);
+                return false;
+            }
+        } else {
+            if (tab_sent) {
+                unregister_code(KC_TAB);
+                tab_sent = false;
+                return false;
+            }
+        }
         return true;
     }
 
