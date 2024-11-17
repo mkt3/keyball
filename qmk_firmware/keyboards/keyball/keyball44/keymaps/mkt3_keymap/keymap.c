@@ -64,7 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_MOUSE] = LAYOUT_universal(
     KC_NO ,  KC_NO   , KC_NO    , KC_NO   , KC_NO    , KC_NO    ,                                         KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO   , KC_NO   ,
-    KC_NO ,  KC_NO   , KC_NO    , KC_NO   , KC_NO    , KC_NO    ,                                         KC_NO    , KC_J    , KC_K    , KC_BTN1    , KC_BTN2   , KC_NO   ,
+    KC_LCTL ,  KC_NO   , KC_NO    , KC_NO   , KC_NO    , KC_NO    ,                                         KC_NO    , KC_J    , KC_K    , KC_BTN1    , KC_BTN2   , KC_NO   ,
     KC_NO ,  KC_NO , KC_NO  , KC_C , KC_V  , KC_NO  ,                                                   KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  ,
           KC_NO  , KC_NO , KC_NO  ,         KC_LGUI  , KC_NO  ,                            KC_NO  , KC_NO  , KC_NO       , KC_NO  , KC_NO
   ),
@@ -135,80 +135,49 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-uint8_t mod_state;
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // Store the current modifier state in the variable for later reference
-    mod_state = get_mods();
-    switch (keycode) {
-    case KC_H:
-        {
-        // Initialize a boolean variable to track backspace replacement status
-        static bool backspace_sent;
-        if (record->event.pressed) {
-            // Check if the Control modifier is active
-            if (mod_state & MOD_MASK_CTRL) {
-                // Temporarily remove the Control modifier to send KC_BSPC
-                del_mods(MOD_MASK_CTRL);
-                register_code(KC_BSPC);
-                backspace_sent = true;
-                // Reapply the original modifier state
-                set_mods(mod_state);
-                return false;
-            }
-        } else { // on release of KC_H
-            // If backspace was sent, unregister KC_BSPC
-            if (backspace_sent) {
-                unregister_code(KC_BSPC);
-                backspace_sent = false;
-                return false;
-            }
+bool process_control_key(uint16_t keycode, uint16_t replacement, keyrecord_t *record) {
+    static bool key_sent;
+    uint8_t mod_state = get_mods();
+    if (record->event.pressed) {
+        if (mod_state & MOD_MASK_CTRL) {
+            del_mods(MOD_MASK_CTRL);
+            register_code(replacement);
+            key_sent = true;
+            set_mods(mod_state);
+            return false;
         }
-        // Let QMK process the KC_H keycode as usual if Ctrl is not active
-        return true;
-    }
-
-    case KC_M:
-        {
-        static bool enter_sent;
-        if (record->event.pressed) {
-            if (mod_state & MOD_MASK_CTRL) {
-                del_mods(MOD_MASK_CTRL);
-                register_code(KC_ENTER);
-                enter_sent = true;
-                set_mods(mod_state);
-                return false;
-            }
-        } else {
-            if (enter_sent) {
-                unregister_code(KC_ENTER);
-                enter_sent = false;
-                return false;
-            }
+    } else {
+        if (key_sent) {
+            unregister_code(replacement);
+            key_sent = false;
+            return false;
         }
-        return true;
-    }
-
-    case KC_I:
-        {
-        static bool tab_sent;
-        if (record->event.pressed) {
-            if (mod_state & MOD_MASK_CTRL) {
-                del_mods(MOD_MASK_CTRL);
-                register_code(KC_TAB);
-                tab_sent = true;
-                set_mods(mod_state);
-                return false;
-            }
-        } else {
-            if (tab_sent) {
-                unregister_code(KC_TAB);
-                tab_sent = false;
-                return false;
-            }
-        }
-        return true;
-    }
-
     }
     return true;
-};
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case KC_H:
+            return process_control_key(KC_H, KC_BSPC, record);
+        case KC_D:
+            return process_control_key(KC_D, KC_DELETE, record);
+        case KC_M:
+            return process_control_key(KC_M, KC_ENTER, record);
+        case KC_I:
+            return process_control_key(KC_I, KC_TAB, record);
+        case KC_F:
+            return process_control_key(KC_F, KC_RIGHT, record);
+        case KC_B:
+            return process_control_key(KC_B, KC_LEFT, record);
+        case KC_N:
+            return process_control_key(KC_N, KC_DOWN, record);
+        case KC_P:
+            return process_control_key(KC_P, KC_UP, record);
+        case KC_A:
+            return process_control_key(KC_A, KC_HOME, record);
+        case KC_E:
+            return process_control_key(KC_E, KC_END, record);
+    }
+    return true;
+}
