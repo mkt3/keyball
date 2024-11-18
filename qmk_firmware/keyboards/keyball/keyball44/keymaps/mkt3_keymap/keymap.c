@@ -123,7 +123,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
             return true;
         case RCTL_QUOT:
             return true;
-        case LT(2, KC_GRAVE):
+        case LGUI_SPC:
             return true;
         case SFT_T(KC_GRAVE):
             return true;
@@ -136,22 +136,27 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_control_key(uint16_t keycode, uint16_t replacement, keyrecord_t *record) {
-    static bool key_sent;
+    static uint8_t active_ctrl = 0;
     uint8_t mod_state = get_mods();
+
     if (record->event.pressed) {
-        if (mod_state & MOD_MASK_CTRL) {
+        if ((mod_state & MOD_MASK_CTRL) && !(mod_state & ~(MOD_MASK_CTRL))) {
+            active_ctrl = mod_state & MOD_MASK_CTRL;
             del_mods(MOD_MASK_CTRL);
+            send_keyboard_report();
             register_code(replacement);
-            key_sent = true;
-            set_mods(mod_state);
             return false;
         }
     } else {
-        if (key_sent) {
-            unregister_code(replacement);
-            key_sent = false;
+        unregister_code(replacement);
+
+        if (active_ctrl) {
+            set_mods(active_ctrl);
+            send_keyboard_report();
+            active_ctrl = 0;
             return false;
         }
+        return true;
     }
     return true;
 }
@@ -166,18 +171,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return process_control_key(KC_M, KC_ENTER, record);
         case KC_I:
             return process_control_key(KC_I, KC_TAB, record);
-        case KC_F:
-            return process_control_key(KC_F, KC_RIGHT, record);
-        case KC_B:
-            return process_control_key(KC_B, KC_LEFT, record);
-        case KC_N:
-            return process_control_key(KC_N, KC_DOWN, record);
-        case KC_P:
-            return process_control_key(KC_P, KC_UP, record);
-        case KC_A:
-            return process_control_key(KC_A, KC_HOME, record);
-        case KC_E:
-            return process_control_key(KC_E, KC_END, record);
     }
     return true;
 }
