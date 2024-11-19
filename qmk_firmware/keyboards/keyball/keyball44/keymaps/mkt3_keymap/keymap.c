@@ -50,9 +50,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [_CTRL] = LAYOUT_universal(
-    C(KC_TAB), C(KC_Q)  , C(KC_W)  , C(KC_E)  , C(KC_R)  , C(KC_T)  ,                                        C(KC_Y)  , C(KC_U)  , C(KC_I)  , C(KC_O)  , C(KC_P)  , C(KC_LBRC)  ,
-    LCTL_MINS, C(KC_A)  , C(KC_S)  , C(KC_D)  , C(KC_F)  , C(KC_G)  ,                                        C(KC_H)  , C(KC_J)  , C(KC_K)  , C(KC_L)  , C(KC_SCLN), C(KC_QUOT) ,
-    KC_LSFT ,  C(KC_Z)  , C(KC_X)  , C(KC_C)  , C(KC_V)  , C(KC_B)  ,                                        C(KC_N)  , C(KC_M)  , C(KC_COMM), C(KC_DOT) , C(KC_SLSH)  , C(KC_BSLS),
+    C(KC_TAB), C(KC_Q)  , C(KC_W)  , C(KC_E)  , C(KC_R)  , C(KC_T)  ,                                        C(KC_Y)  , C(KC_U)  , C(KC_I)  , C(KC_O)  , KC_UP    , C(KC_LBRC)  ,
+    LCTL_MINS, C(KC_A)  , C(KC_S)  , KC_DEL   , KC_RGHT  , C(KC_G)  ,                                        KC_BSPC  , C(KC_J)  , C(KC_K)  , C(KC_L)  , C(KC_SCLN), C(KC_QUOT) ,
+    KC_LSFT ,  C(KC_Z)  , C(KC_X)  , C(KC_C)  , C(KC_V)  , KC_LEFT  ,                                        KC_DOWN  , KC_ENT   ,C(KC_COMM), C(KC_DOT), C(KC_SLSH), C(KC_BSLS),
           _______ ,_______   , _______,_______,_______,                                  _______,C(KC_SPC)       , _______,_______                    , _______
   ),
 
