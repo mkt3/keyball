@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum layer_number {
   _DEFAULT = 0,
+  _CTRL,
   _SYMBOL,
   _TILE,
   _MOUSE,
@@ -33,8 +34,8 @@ enum layer_number {
 #define HSCL_DOT LT(_HSCL_MNG,KC_DOT)
 #define SYM_SPC LT(_SYMBOL,KC_SPC)
 #define TILE_MINS LT(_TILE,KC_MINS)
-#define LCTL_MINS LCTL_T(KC_MINS)
-#define RCTL_QUOT RCTL_T(KC_QUOT)
+#define LCTL_MINS LT(_CTRL,KC_MINS)
+#define RCTL_QUOT LT(_CTRL,KC_QUOT)
 #define LSFT_GRV LSFT_T(KC_GRV)
 #define RSFT_BSLS RSFT_T(KC_BSLS)
 #define LGUI_SPC LGUI_T(KC_SPC)
@@ -46,6 +47,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LCTL_MINS, KC_A     , KC_S     , KC_D     , KC_F     , KC_G     ,                                        KC_H     , KC_J     , KC_K     , KC_L     , KC_SCLN  , RCTL_QUOT  ,
     LSFT_GRV , KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                                        KC_N     , KC_M     , VSCL_COMM, HSCL_DOT , KC_SLSH  , RSFT_BSLS,
                KC_LALT  ,KC_GRV    , TILE_MINS,LGUI_SPC,KC_LSFT,                                  KC_RSFT,SYM_SPC       , KC_NO,KC_NO                    , KC_ESC
+  ),
+
+  [_CTRL] = LAYOUT_universal(
+    C(KC_TAB), C(KC_Q)  , C(KC_W)  , C(KC_E)  , C(KC_R)  , C(KC_T)  ,                                        C(KC_Y)  , C(KC_U)  , C(KC_I)  , C(KC_O)  , C(KC_P)  , C(KC_LBRC)  ,
+    LCTL_MINS, C(KC_A)  , C(KC_S)  , C(KC_D)  , C(KC_F)  , C(KC_G)  ,                                        C(KC_H)  , C(KC_J)  , C(KC_K)  , C(KC_L)  , C(KC_SCLN), C(KC_QUOT) ,
+    KC_LSFT ,  C(KC_Z)  , C(KC_X)  , C(KC_C)  , C(KC_V)  , C(KC_B)  ,                                        C(KC_N)  , C(KC_M)  , C(KC_COMM), C(KC_DOT) , C(KC_SLSH)  , C(KC_BSLS),
+          _______ ,_______   , _______,_______,_______,                                  _______,C(KC_SPC)       , _______,_______                    , _______
   ),
 
   [_SYMBOL] = LAYOUT_universal(
@@ -65,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_MOUSE] = LAYOUT_universal(
     KC_NO ,  KC_NO   , KC_NO    , KC_NO   , KC_NO    , KC_NO    ,                                         KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO   , KC_NO   ,
     KC_LCTL ,  KC_NO   , KC_NO    , KC_NO   , KC_NO    , KC_NO    ,                                         KC_NO    , KC_J    , KC_K    , KC_BTN1    , KC_BTN2   , KC_NO   ,
-    KC_NO ,  KC_NO , KC_NO  , KC_C , KC_V  , KC_NO  ,                                                   KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  ,
+    KC_LSFT ,  KC_NO , KC_NO  , KC_C , KC_V  , KC_NO  ,                                                   KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  ,
           KC_NO  , KC_NO , KC_NO  ,         KC_LGUI  , KC_NO  ,                            KC_NO  , KC_NO  , KC_NO       , KC_NO  , KC_NO
   ),
 
@@ -119,15 +127,17 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case SYM_SPC:
             return true;
+        case TILE_MINS:
+            return true;
         case LCTL_MINS:
             return true;
         case RCTL_QUOT:
             return true;
+        case LSFT_GRV:
+            return true;
+        case RSFT_BSLS:
+            return true;
         case LGUI_SPC:
-            return true;
-        case SFT_T(KC_GRAVE):
-            return true;
-        case SFT_T(KC_BSLS):
             return true;
         default:
             // Do not select the hold action when another key is pressed.
@@ -135,42 +145,46 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-bool process_control_key(uint16_t keycode, uint16_t replacement, keyrecord_t *record) {
-    static uint8_t active_ctrl = 0;
-    uint8_t mod_state = get_mods();
+/* bool process_control_key(uint16_t replacement, keyrecord_t *record) { */
+/*     static uint8_t active_ctrl = 0; */
+/*     static bool replacement_active = false; */
+/*     uint8_t mod_state = get_mods(); */
 
-    if (record->event.pressed) {
-        if ((mod_state & MOD_MASK_CTRL) && !(mod_state & ~(MOD_MASK_CTRL))) {
-            active_ctrl = mod_state & MOD_MASK_CTRL;
-            del_mods(MOD_MASK_CTRL);
-            send_keyboard_report();
-            register_code(replacement);
-            return false;
-        }
-    } else {
-        unregister_code(replacement);
+/*     if (record->event.pressed) { */
+/*         if ((mod_state & MOD_MASK_CTRL) && !(mod_state & ~(MOD_MASK_CTRL))) { */
+/*             active_ctrl = mod_state & MOD_MASK_CTRL; */
+/*             del_mods(MOD_MASK_CTRL); */
+/*             send_keyboard_report(); */
+/*             register_code(replacement); */
+/*             replacement_active = true; */
+/*             return false; */
+/*         } */
+/*     } else { */
+/*         if (replacement_active) { */
+/*             unregister_code(replacement); */
+/*             replacement_active = false; */
 
-        if (active_ctrl) {
-            set_mods(active_ctrl);
-            send_keyboard_report();
-            active_ctrl = 0;
-            return false;
-        }
-        return true;
-    }
-    return true;
-}
+/*             if (active_ctrl) { */
+/*                 set_mods(active_ctrl); */
+/*                 send_keyboard_report(); */
+/*                 active_ctrl = 0; */
+/*             } */
+/*             return false; */
+/*         } */
+/*     } */
+/*     return true; */
+/* } */
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case KC_H:
-            return process_control_key(KC_H, KC_BSPC, record);
-        case KC_D:
-            return process_control_key(KC_D, KC_DELETE, record);
-        case KC_M:
-            return process_control_key(KC_M, KC_ENTER, record);
-        case KC_I:
-            return process_control_key(KC_I, KC_TAB, record);
-    }
-    return true;
-}
+/* bool process_record_user(uint16_t keycode, keyrecord_t *record) { */
+/*     switch (keycode) { */
+/*         case KC_H: */
+/*             return process_control_key(KC_BSPC, record); */
+/*         case KC_D: */
+/*             return process_control_key(KC_DELETE, record); */
+/*         case KC_M: */
+/*             return process_control_key(KC_ENTER, record); */
+/*         case KC_I: */
+/*             return process_control_key(KC_TAB, record); */
+/*     } */
+/*     return true; */
+/* } */
