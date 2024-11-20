@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "quantum.h"
 
 enum layer_number {
-  _DEFAULT = 0,
+  _BASE = 0,
   _CTRL,
   _SYMBOL,
   _TILE,
@@ -29,6 +29,7 @@ enum layer_number {
   _VSCL_FN,
   _HSCL_MNG
 };
+
 
 #define VSCL_COMM LT(_VSCL_FN,KC_COMM)
 #define HSCL_DOT LT(_HSCL_MNG,KC_DOT)
@@ -39,28 +40,37 @@ enum layer_number {
 #define LSFT_GRV LSFT_T(KC_GRV)
 #define RSFT_BSLS RSFT_T(KC_BSLS)
 #define LGUI_SPC LGUI_T(KC_SPC)
+#define RGUI_EQL RGUI_T(KC_EQL)
+
+enum {
+    TD_QESC,
+};
+
+tap_dance_action_t tap_dance_actions[] = {
+    [TD_QESC] = ACTION_TAP_DANCE_DOUBLE(KC_Q, KC_ESC),
+};
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [_DEFAULT] = LAYOUT_universal(
-    KC_TAB   , KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                                        KC_Y     , KC_U     , KC_I     , KC_O     , KC_P     , KC_LBRC  ,
+  [_BASE] = LAYOUT_universal(
+    KC_TAB   ,TD(TD_QESC), KC_W     , KC_E     , KC_R     , KC_T     ,                                        KC_Y     , KC_U     , KC_I     , KC_O     , KC_P     , KC_LBRC  ,
     LCTL_MINS, KC_A     , KC_S     , KC_D     , KC_F     , KC_G     ,                                        KC_H     , KC_J     , KC_K     , KC_L     , KC_SCLN  , RCTL_QUOT  ,
     LSFT_GRV , KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                                        KC_N     , KC_M     , VSCL_COMM, HSCL_DOT , KC_SLSH  , RSFT_BSLS,
-               KC_LALT  ,KC_GRV    , TILE_MINS,LGUI_SPC,KC_LSFT,                         LGUI_SPC,SYM_SPC       , KC_NO,KC_NO                    , KC_ESC
+               KC_LALT  ,KC_GRV    , TILE_MINS,LGUI_SPC,KC_LSFT,                         RGUI_EQL,SYM_SPC       , KC_NO,KC_NO                    , KC_ESC
   ),
 
   [_CTRL] = LAYOUT_universal(
     C(KC_TAB), C(KC_Q)  , C(KC_W)  , C(KC_E)  , C(KC_R)  , C(KC_T)  ,                                        C(KC_Y)  , C(KC_U)  , KC_TAB  , C(KC_O)  , KC_UP    , C(KC_LBRC)  ,
     LCTL_MINS, C(KC_A)  , C(KC_S)  , KC_DEL   , KC_RGHT  , C(KC_G)  ,                                        KC_BSPC  , C(KC_J)  , C(KC_K)  , C(KC_L)  , C(KC_SCLN), C(KC_QUOT) ,
     KC_LSFT ,  C(KC_Z)  , C(KC_X)  , C(KC_C)  , C(KC_V)  , KC_LEFT  ,                                        KC_DOWN  , KC_ENT   ,C(KC_COMM), C(KC_DOT), C(KC_SLSH), C(KC_BSLS),
-          _______ ,_______   , _______,_______,_______,                                  _______,C(KC_SPC)       , _______,_______                    , _______
+               _______ ,_______   , C(KC_MINS),_______,_______,                                  C(KC_EQL),C(KC_SPC)       , _______,_______                    , _______
   ),
 
   [_SYMBOL] = LAYOUT_universal(
     _______   , S(KC_1) , S(KC_2)  , S(KC_3)  , S(KC_4)  , S( KC_5) ,                                        S(KC_6)  , S(KC_7)  , S(KC_8)  ,S(KC_9)   , S(KC_0)     , KC_MINS  ,
-    S(KC_MINS), KC_1     , KC_2     , KC_3     , KC_4     , KC_5     ,                                       KC_6     , KC_7     , KC_8     , KC_9     , KC_0     , KC_EQL  ,
+    KC_LCTL , KC_1     , KC_2     , KC_3     , KC_4     , KC_5     ,                                       KC_6     , KC_7     , KC_8     , KC_9     , KC_0     , KC_EQL  ,
     _______ , S(KC_GRV)   , KC_LBRC  , KC_RBRC  , S(KC_LBRC)     ,S(KC_RBRC)     ,                           S(KC_9)   , S(KC_0)    , S(KC_COMM), S(KC_DOT) , KC_SLSH  , _______,
-          _______ ,_______   , _______,_______,_______,                                  _______,_______       , _______,_______                    , _______
+               _______ ,_______   , S(KC_MINS),_______,_______,                                  _______,_______       , _______,_______                    , _______
   ),
 
   [_TILE] = LAYOUT_universal(
@@ -138,6 +148,8 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         case RSFT_BSLS:
             return true;
         case LGUI_SPC:
+            return true;
+        case RGUI_EQL:
             return true;
         default:
             // Do not select the hold action when another key is pressed.
