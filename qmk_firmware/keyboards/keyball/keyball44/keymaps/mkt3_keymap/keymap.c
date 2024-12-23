@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_SYMBOL] = LAYOUT_universal(
     KC_NO     , S(KC_1)  , S(KC_2)  , S(KC_3)  , S(KC_4)  , S( KC_5) ,                       S(KC_6)  , S(KC_7)  , S(KC_8)  , S(KC_9)  , S(KC_0)  , KC_NO    ,
     KC_NO     , KC_1     , KC_2     , KC_3     , KC_4     , KC_5     ,                       KC_6     , KC_7     , KC_8     , KC_9     , KC_0     , KC_NO    ,
-    KC_NO     , KC_SLSH  , KC_LBRC  , KC_RBRC  , S(KC_LBRC),S(KC_RBRC),                      KC_EQL   , S(KC_EQL),S(KC_COMM), S(KC_DOT),S(KC_SLSH), KC_NO    ,
+    KC_NO     , KC_SLSH  , KC_LBRC  , KC_RBRC  ,S(KC_LBRC),S(KC_RBRC),                       KC_EQL   , S(KC_EQL),S(KC_COMM), S(KC_DOT),S(KC_SLSH), KC_NO    ,
                 _______  , _______  ,            S(KC_GRV),S(KC_MINS),S(KC_EQL),       KC_NO,_______  ,   _______,_______              , _______
   ),
 
@@ -76,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_NO     , G(KC_Q)  , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,                       KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,
     KC_NO     , A(KC_1)  , A(KC_2)  , A(KC_3)  , A(KC_4)  , A(KC_5)  ,                       A(KC_H)  , A(KC_J)  , A(KC_K)  , A(KC_L)  , A(KC_6)  , KC_NO    ,
     KC_NO     , KC_NO    , KC_NO    , G(KC_C)  , A(KC_V)  , KC_NO    ,                       KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,
-                KC_NO    , KC_NO    ,            KC_NO,KC_NO,KC_LSFT,                  KC_NO,A(KC_SPC),     KC_NO,KC_NO               , KC_NO
+                KC_NO    , KC_NO    ,            KC_NO,KC_NO,KC_LSFT,                KC_RSFT,A(KC_SPC),     KC_NO,KC_NO                , KC_NO
   ),
 
   [_MOUSE] = LAYOUT_universal(
@@ -137,8 +137,6 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         case SYM_SPC:
             return true;
         case TILE_GRV:
-            return true;
-        case LCTL_A:
             return true;
         case LSFT_Z:
             return true;
