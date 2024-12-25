@@ -62,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                 KC_LALT  , KC_ESC   ,            TILE_GRV,LGUI_UNDS,RSFT_EQL,      RSFT_EQL,SYM_SPC  ,      KC_NO,KC_NO                , KC_ESC
   ),
 
-  [_SYMBOL] = pLAYOUT_universal(
+  [_SYMBOL] = LAYOUT_universal(
     S(KC_GRV) , S(KC_1)  , S(KC_2)  , S(KC_3)  , S(KC_4)  , S( KC_5) ,                       S(KC_6)  , S(KC_7)  , S(KC_8)  , S(KC_9)  , S(KC_0)  , KC_MINS  ,
     KC_LCTL   , KC_1     , KC_2     , KC_3     , KC_4     , KC_5     ,                       KC_6     , KC_7     , KC_8     , KC_9     , KC_0     , KC_EQL   ,
     KC_LSFT   , KC_SLSH  , KC_LBRC  , KC_RBRC  ,S(KC_LBRC),S(KC_RBRC),                       KC_EQL   , S(KC_EQL),S(KC_COMM), S(KC_DOT),S(KC_SLSH), KC_RSFT  ,
