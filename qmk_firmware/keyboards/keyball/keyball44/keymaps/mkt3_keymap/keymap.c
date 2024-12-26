@@ -80,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_NO     , KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,                       KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,
     KC_LCTL   , KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,                       KC_NO    , KC_J     , KC_K     , KC_BTN1  , KC_BTN2  , KC_NO    ,
     KC_LSFT   , KC_NO    , KC_NO    , KC_C     , KC_V     , KC_NO    ,                       KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,
-                KC_NO    , KC_NO    ,            KC_LALT,KC_LGUI,KC_LSFT,              KC_NO,KC_NO    ,     KC_NO,KC_NO                , KC_NO
+                KC_NO    , KC_NO    ,            MO(_TILE),KC_LGUI,KC_LSFT,            KC_NO,KC_NO    ,     KC_NO,KC_NO                , KC_NO
   ),
 
   [_VSCL_FN] = LAYOUT_universal(
