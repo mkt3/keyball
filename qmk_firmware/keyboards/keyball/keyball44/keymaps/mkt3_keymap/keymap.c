@@ -189,8 +189,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     switch (keycode) {
-        case KC_G:
-            return process_control_key(KC_ESC, record);
         case KC_H:
             return process_control_key(KC_BSPC, record);
         case KC_D:
