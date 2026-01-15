@@ -63,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [_TILE] = LAYOUT_universal(
-    KC_NO     , A(KC_Q)  , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,                       KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,
+    KC_NO     , A(KC_Q)  , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,                       A(KC_Y)  , KC_NO    , KC_NO    , A(KC_O)    , KC_NO    , KC_NO    ,
     A(KC_6)   , A(KC_1)  , A(KC_2)  , A(KC_3)  , A(KC_4)  , A(KC_5)  ,                       A(KC_H)  , A(KC_J)  , A(KC_K)  , A(KC_L)  , A(KC_6)  , KC_NO    ,
     KC_LSFT   , KC_NO    , KC_NO    , G(KC_C)  , A(KC_V)  , KC_NO    ,                       KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_RSFT  ,
                 KC_NO    , KC_NO    ,            KC_NO,KC_NO,KC_LSFT,                KC_RSFT,A(KC_SPC),     KC_NO,KC_NO                , KC_NO
