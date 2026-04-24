@@ -41,7 +41,7 @@ enum layer_number {
 #define RSFT_EQL RSFT_T(KC_EQL)
 #define RSFT_QUOT RSFT_T(KC_QUOT)
 
-#define LGUI_UNDS LGUI_T(KC_UNDS)
+#define LALT_UNDS LALT_T(KC_UNDS)
 
 
 // clang-format off
@@ -49,8 +49,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT_universal(
     KC_TAB    , KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                      KC_Y     , KC_U      , KC_I     , KC_O     , KC_P     , KC_LBRC  ,
     KC_LCTL   , KC_A     , KC_S     , KC_D     , KC_F     , KC_G     ,                      KC_H     , KC_J      , KC_K     , KC_L     , KC_SCLN  , LCTL_QUOT,
-    KC_LSFT   , KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                      KC_N     , KC_M      , VSCL_COMM, HSCL_DOT , KC_SLSH  , RSFT_BSLS,
-                KC_LALT  , KC_ESC   ,            KC_LGUI  ,KC_LALT   ,RSFT_EQL,     RSFT_QUOT,SYM_SPC,      KC_NO,KC_NO                , KC_ESC
+    LSFT_GRV  , KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                      KC_N     , KC_M      , VSCL_COMM, HSCL_DOT , KC_SLSH  , RSFT_BSLS,
+                KC_LALT  , KC_ESC   ,            KC_LGUI  ,LALT_UNDS ,RSFT_EQL,     RSFT_QUOT,SYM_SPC,      KC_NO,KC_NO                , KC_ESC
   ),
 
   [_SYMBOL] = LAYOUT_universal(
@@ -127,7 +127,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
             return true;
         case RSFT_QUOT:
             return true;
-        case LGUI_UNDS:
+        case LALT_UNDS:
             return true;
         default:
             // Do not select the hold action when another key is pressed.
