@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 enum layer_number {
   _BASE = 0,
   _SYMBOL,
-  _TILE,
   _MOUSE,
   _VSCL_FN,
   _HSCL_MNG
@@ -52,28 +51,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB    , KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                      KC_Y     , KC_U      , KC_I     , KC_O     , KC_P     , KC_LBRC  ,
     KC_LCTL   , KC_A     , KC_S     , KC_D     , KC_F     , KC_G     ,                      KC_H     , KC_J      , KC_K     , KC_L     , KC_SCLN  , LCTL_QUOT,
     KC_LSFT   , KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                      KC_N     , KC_M      , VSCL_COMM, HSCL_DOT , KC_SLSH  , RSFT_BSLS,
-                KC_LALT  , KC_ESC   ,            TILE_GRV,LGUI_UNDS,RSFT_EQL,     RSFT_QUOT,SYM_SPC  ,      KC_NO,KC_NO                , KC_ESC
+                KC_LALT  , KC_ESC   ,            KC_LGUI  ,KC_LALT   ,RSFT_EQL,     RSFT_QUOT,SYM_SPC,      KC_NO,KC_NO                , KC_ESC
   ),
 
   [_SYMBOL] = LAYOUT_universal(
     S(KC_GRV) , S(KC_1)  , S(KC_2)  , S(KC_3)  , S(KC_4)  , S( KC_5) ,                       S(KC_6)  , S(KC_7)  , S(KC_8)  , S(KC_9)  , S(KC_0)  , KC_MINS  ,
     KC_LCTL   , KC_1     , KC_2     , KC_3     , KC_4     , KC_5     ,                       KC_6     , KC_7     , KC_8     , KC_9     , KC_0     , KC_EQL   ,
     KC_LSFT   , KC_SLSH  , KC_LBRC  , KC_RBRC  ,S(KC_LBRC),S(KC_RBRC),                       KC_EQL   , S(KC_EQL),S(KC_COMM), S(KC_DOT),S(KC_SLSH), KC_RSFT  ,
-                _______  , _______  ,            S(KC_GRV),KC_LGUI,S(KC_EQL),      S(KC_EQL),_______  ,     KC_NO,KC_NO                , _______
-  ),
-
-  [_TILE] = LAYOUT_universal(
-    KC_NO     , A(KC_Q)  , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,                       A(KC_Y)  , KC_NO    , KC_NO    , A(KC_O)    , KC_NO    , KC_NO    ,
-    A(KC_6)   , A(KC_1)  , A(KC_2)  , A(KC_3)  , A(KC_4)  , A(KC_5)  ,                       A(KC_H)  , A(KC_J)  , A(KC_K)  , A(KC_L)  , A(KC_6)  , KC_NO    ,
-    KC_LSFT   , KC_NO    , KC_NO    , G(KC_C)  , A(KC_V)  , KC_NO    ,                       KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_RSFT  ,
-                KC_NO    , KC_NO    ,            KC_NO,KC_NO,KC_LSFT,                KC_RSFT,A(KC_SPC),     KC_NO,KC_NO                , KC_NO
+                _______  , _______  ,            _______  , _______  ,S(KC_EQL),      S(KC_EQL),_______  ,     KC_NO,KC_NO                , _______
   ),
 
   [_MOUSE] = LAYOUT_universal(
     KC_NO     , KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,                       KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,
     KC_LCTL   , KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,                       KC_NO    , KC_J     , KC_K     , KC_BTN1  , KC_BTN2  , KC_NO    ,
     KC_LSFT   , KC_NO    , KC_NO    , KC_C     , KC_V     , KC_NO    ,                       KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    , KC_NO    ,
-                KC_NO    , KC_NO    ,            MO(_TILE),KC_LGUI,KC_LSFT,            KC_NO,KC_NO    ,     KC_NO,KC_NO                , KC_NO
+                KC_NO    , KC_NO    ,            _______ ,_______ ,KC_LSFT,            KC_NO,KC_NO    ,     KC_NO,KC_NO                , KC_NO
   ),
 
   [_VSCL_FN] = LAYOUT_universal(
@@ -209,3 +201,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     return true;
 }
+
+#ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+void pointing_device_init_user(void) {
+    set_auto_mouse_enable(true);
+}
+#endif
