@@ -33,7 +33,6 @@ enum layer_number {
 #define HSCL_DOT LT(_HSCL_MNG,KC_DOT)
 
 #define SYM_SPC LT(_SYMBOL,KC_SPC)
-#define TILE_GRV LT(_TILE,KC_GRV)
 
 #define LCTL_QUOT LCTL_T(KC_QUOT)
 
@@ -117,8 +116,6 @@ void oledkit_render_info_user(void) {
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case SYM_SPC:
-            return true;
-        case TILE_GRV:
             return true;
         case LCTL_QUOT:
             return true;
